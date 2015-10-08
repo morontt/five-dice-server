@@ -18,7 +18,9 @@
     },
     "require": {
         "php": ">=5.4",
-        "silex/silex": "~1.3"
+        "silex/silex": "~1.3",
+        "silex/web-profiler": "~1.0",
+        "symfony/debug": "~2.3"
     },
     "config": {
         "bin-dir": "bin"
