@@ -4,3 +4,6 @@ behat.yml
 /database/game.db3
 /composer.phar
 /pimple.json
+web/components/
+web/react/*
+!web/react/.gitkeep

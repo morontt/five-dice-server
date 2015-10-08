@@ -1,0 +1,13 @@
+{% extends "layout.html.twig" %}
+
+{% block content %}
+    <div class="container">
+        <div id="game-app"></div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="{{ app.request.basepath }}/components/react/react.js"></script>
+    <script type="text/javascript" src="{{ app.request.basepath }}/components/react/react-dom.js"></script>
+    <script type="text/javascript" src="{{ app.request.basepath }}/react/game.js"></script>
+{% endblock %}

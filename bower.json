@@ -1,0 +1,17 @@
+{
+    "name": "five-dice",
+    "version": "0.0.1",
+    "private": true,
+    "homepage": "https://github.com/morontt/five-dice-server",
+    "authors": [
+        "phantom <vphant@gmail.com>",
+        "morontt <morontt@gmail.com>"
+    ],
+    "description": "FiveDice app",
+    "license": "MIT",
+    "dependencies": {
+        "react": "0.14.0",
+        "jquery": "2.1.4",
+        "bootstrap": "3.3.5"
+    }
+}
