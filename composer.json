@@ -1,0 +1,28 @@
+{
+    "name": "five-dice-server",
+    "license": "MIT",
+    "type": "project",
+    "description": "five-dice game",
+    "authors": [
+        {
+            "name": "morontt",
+            "email": "morontt@gmail.com"
+        },
+        {
+            "name": "phantom",
+            "email": "vphant@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-0": { "": "src/" }
+    },
+    "require": {
+        "php": ">=5.4",
+        "silex/silex": "~1.3"
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
