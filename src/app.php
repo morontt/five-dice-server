@@ -9,7 +9,7 @@ $app = new Application();
 $app->register(new UrlGeneratorServiceProvider());
 $app->register(new ServiceControllerServiceProvider());
 $app->register(new TwigServiceProvider());
-//$app->register(new Silex\Provider\HttpFragmentServiceProvider());
+
 $app['twig'] = $app->share($app->extend('twig', function ($twig, $app) {
     // add custom globals, filters, tags, ...
 
