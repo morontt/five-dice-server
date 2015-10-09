@@ -19,7 +19,8 @@ dependencies:
   post:
     - cp ./var/ci/five-dice.loc.conf /etc/apache2/sites-available
     - a2ensite five-dice.loc.conf
-    - sudo service apache2 restart
+    - a2enmod rewrite
+    - service apache2 restart
 
 test:
   pre:
