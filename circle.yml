@@ -18,9 +18,9 @@ dependencies:
     - composer install --no-interaction
   post:
     - cp ./var/ci/five-dice.loc.conf /etc/apache2/sites-available
-    - a2ensite five-dice.loc.conf
-    - a2enmod rewrite
-    - service apache2 restart
+    - sudo a2ensite five-dice.loc.conf
+    - sudo a2enmod rewrite
+    - sudo service apache2 restart
 
 test:
   pre:
