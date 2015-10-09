@@ -1,0 +1,29 @@
+machine:
+  timezone:
+    Europe/Zaporozhye
+  hosts:
+    five-dice.loc: 127.0.0.1
+  php:
+    version: 5.5.9
+
+checkout:
+  post:
+    - cp ./var/ci/behat.ci.yml ./behat.yml
+
+dependencies:
+  cache_directories:
+    - vendor
+    - bin
+  override:
+    - composer install --no-interaction
+  post:
+    - cp ./var/ci/five-dice.loc.conf /etc/apache2/sites-available
+    - a2ensite five-dice.loc.conf
+    - sudo service apache2 restart
+
+test:
+  pre:
+    - chmod -R 777 var/cache/profiler
+    - chmod -R 777 var/cache/twig
+  override:
+    - bin/behat

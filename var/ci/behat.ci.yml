@@ -1,0 +1,8 @@
+default:
+    formatters:
+        progress: true
+
+    extensions:
+        Behat\MinkExtension:
+            base_url: http://five-dice.loc:8080
+            goutte: ~
