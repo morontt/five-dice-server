@@ -23,7 +23,6 @@ dependencies:
 
 test:
   pre:
-    - chmod -R 777 var/cache/profiler
-    - chmod -R 777 var/cache/twig
+    - chmod -R 777 var/cache
   override:
     - bin/behat
