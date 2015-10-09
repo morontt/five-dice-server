@@ -22,6 +22,11 @@
         "silex/web-profiler": "~1.0",
         "symfony/debug": "~2.3"
     },
+    "require-dev": {
+        "behat/behat": "^3.0",
+        "behat/mink-extension": "^2.0",
+        "behat/mink-goutte-driver": "~1.0"
+    },
     "config": {
         "bin-dir": "bin"
     },
