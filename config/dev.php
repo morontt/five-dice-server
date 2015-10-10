@@ -8,6 +8,7 @@ require __DIR__ . '/prod.php';
 // enable the debug mode
 $app['debug'] = true;
 
+$app->register(new Silex\Provider\ServiceControllerServiceProvider());
 $app->register(new Silex\Provider\HttpFragmentServiceProvider());
 $app->register(
     new WebProfilerServiceProvider(),
