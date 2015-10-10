@@ -3,6 +3,9 @@
 use Symfony\Component\HttpFoundation\Response;
 
 $app->get('/', 'Controller\\WebController::index')->bind('homepage');
+$app->post('/create', 'Controller\\ApiController::createGame')
+    ->before($app['fd_player.middleware'])
+    ->bind('create');
 
 $app->error(function (\Exception $e, $code) use ($app) {
     if ($app['debug']) {
