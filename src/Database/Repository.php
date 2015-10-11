@@ -36,12 +36,12 @@ class Repository
         if (count($result)) {
             $dbResult = $result[0];
         } else {
-            $id = $this->db->insert('player', [
+            $this->db->insert('player', [
                 'pl_name' => $name,
             ]);
 
             $dbResult = [
-                'id' => $id,
+                'id' => $this->db->lastInsertId(),
                 'pl_name' => $name,
             ];
         }
@@ -56,11 +56,13 @@ class Repository
      */
     public function createGame(GameState $gameState)
     {
-        $gameState->id = $this->db->insert('game_state', [
+        $this->db->insert('game_state', [
             'hash' => $gameState->hash,
             'game_status' => $gameState->status,
             'created_at' => $gameState->createdAt->toDateTimeString(),
         ]);
+
+        $gameState->id = $this->db->lastInsertId();
     }
 
     /**
