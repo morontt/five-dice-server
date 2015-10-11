@@ -1,6 +1,8 @@
 <?php
 
+use Service\Database;
 use Silex\Application;
+use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\UrlGeneratorServiceProvider;
 use Symfony\Component\HttpFoundation\Request;
@@ -8,14 +10,22 @@ use Symfony\Component\HttpFoundation\Request;
 $app = new Application();
 $app->register(new UrlGeneratorServiceProvider());
 $app->register(new TwigServiceProvider());
+$app->register(new DoctrineServiceProvider(), [
+    'db.options' => [
+        'driver' => 'pdo_sqlite',
+        'path' => __DIR__ . '/../database/game.db3',
+    ],
+]);
+
+$app['fd_database'] = function ($app) {
+    return new Database($app['db']);
+};
 
 $app['fd_player'] = null;
 $app['fd_player.middleware'] = $app->protect(function (Request $request, Application $app) {
     $player = $request->headers->get('FD-PLAYER-ID', null);
     if ($player) {
-        $app['fd_player'] = [
-            'player' => $player,
-        ];
+        $app['fd_player'] = $app['fd_database']->getPlayer($player);
     } else {
         return $app->json(
             [

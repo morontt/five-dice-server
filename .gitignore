@@ -1,3 +1,4 @@
 /vendor/
 /bin/
 behat.yml
+/database/game.db3
