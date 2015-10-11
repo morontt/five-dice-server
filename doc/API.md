@@ -28,6 +28,18 @@ POST */create*
 
 GET */pending*
 
+```json
+{
+  "status": "ok",
+  "games": [
+    {"hash": "ifmo6z63"},
+    {"hash": "ifmzu9i6"},
+    {"hash": "ifn099jx"}
+  ],
+  "content_hash": "7bfaf4ec"
+}
+```
+
 ## Опрос состояния по текущей игре
 
 GET */state/{hash}*

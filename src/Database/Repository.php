@@ -76,4 +76,17 @@ class Repository
             'game_state_id' => $gameState->id,
         ]);
     }
+
+    /**
+     * @return array
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    public function getPendingGames()
+    {
+        $stmt = $this->db->prepare('SELECT hash FROM game_state WHERE game_status = :game_status');
+        $stmt->bindValue('game_status', GameState::STATUS_PENDING);
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
 }

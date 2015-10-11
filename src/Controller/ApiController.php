@@ -21,4 +21,19 @@ class ApiController
 
         return new JsonResponse(['status' => 'ok', 'hash' => $gameState->hash]);
     }
+
+    /**
+     * @param Application $app
+     * @return JsonResponse
+     */
+    public function pendingGames(Application $app)
+    {
+        $games = $app['fd_database']->getPendingGames();
+
+        return new JsonResponse([
+            'status' => 'ok',
+            'games' => $games,
+            'content_hash' => hash('crc32b', serialize($games)),
+        ]);
+    }
 }
