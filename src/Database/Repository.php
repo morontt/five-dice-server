@@ -3,6 +3,8 @@
 namespace Database;
 
 use Doctrine\DBAL\Connection;
+use Model\GameState;
+use Model\Player;
 
 class Repository
 {
@@ -21,7 +23,7 @@ class Repository
 
     /**
      * @param string $name
-     * @return array
+     * @return Player
      * @throws \Doctrine\DBAL\DBALException
      */
     public function getPlayer($name)
@@ -32,18 +34,44 @@ class Repository
         $result = $stmt->fetchAll();
 
         if (count($result)) {
-            $player = $result[0];
+            $dbResult = $result[0];
         } else {
             $id = $this->db->insert('player', [
                 'pl_name' => $name,
             ]);
 
-            $player = [
+            $dbResult = [
                 'id' => $id,
                 'pl_name' => $name,
             ];
         }
 
+        $player = new Player($dbResult);
+
         return $player;
+    }
+
+    /**
+     * @param GameState $gameState
+     */
+    public function createGame(GameState $gameState)
+    {
+        $gameState->id = $this->db->insert('game_state', [
+            'hash' => $gameState->hash,
+            'game_status' => $gameState->status,
+            'created_at' => $gameState->createdAt->toDateTimeString(),
+        ]);
+    }
+
+    /**
+     * @param GameState $gameState
+     * @param Player $player
+     */
+    public function createPlayerScore(GameState $gameState, Player $player)
+    {
+        $this->db->insert('player_score', [
+            'player_id' => $player->id,
+            'game_state_id' => $gameState->id,
+        ]);
     }
 }

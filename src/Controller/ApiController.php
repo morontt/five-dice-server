@@ -2,6 +2,7 @@
 
 namespace Controller;
 
+use Model\GameState;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -13,8 +14,11 @@ class ApiController
      */
     public function createGame(Application $app)
     {
-        $hash = base_convert((int)(microtime(true) * 1000), 10, 36);
+        $gameState = new GameState();
 
-        return new JsonResponse(['status' => 'ok', 'hash' => $hash]);
+        $app['fd_database']->createGame($gameState);
+        $app['fd_database']->createPlayerScore($gameState, $app['fd_player']);
+
+        return new JsonResponse(['status' => 'ok', 'hash' => $gameState->hash]);
     }
 }
