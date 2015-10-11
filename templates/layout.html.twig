@@ -8,6 +8,11 @@
         <div class="content">
             {% block content %}{% endblock %}
         </div>
+        <script>
+            var routes = {
+                create: '{{ path('create') }}'
+            }
+        </script>
         <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
         <script src="/js/app.js"></script>
     </body>

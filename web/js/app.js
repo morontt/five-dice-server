@@ -4,7 +4,7 @@ $(function () {
 
         if (player.length) {
             $.ajax({
-                url: '/create',
+                url: routes.create,
                 method: 'POST',
                 headers: {
                     'FD-PLAYER-ID': player
