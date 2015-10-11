@@ -1,6 +1,7 @@
 <?php
 
-use Service\Database;
+use Database\Migrator;
+use Database\Repository;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\TwigServiceProvider;
@@ -17,8 +18,11 @@ $app->register(new DoctrineServiceProvider(), [
     ],
 ]);
 
-$app['fd_database'] = function ($app) {
-    return new Database($app['db']);
+$app['fd_database'] = $app->share(function ($app) {
+    return new Repository($app['db']);
+});
+$app['fd_database.migrator'] = function ($app) {
+    return new Migrator($app['db']);
 };
 
 $app['fd_player'] = null;

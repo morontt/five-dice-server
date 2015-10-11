@@ -1,12 +1,14 @@
 <?php
 
-namespace Service;
+namespace Database;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Schema\Schema;
 
-class Database
+class Repository
 {
+    /**
+     * @var Connection
+     */
     protected $db;
 
     /**
@@ -43,24 +45,5 @@ class Database
         }
 
         return $player;
-    }
-
-    /**
-     * @return array
-     */
-    public function schemaCreate()
-    {
-        $schema = new Schema();
-
-        $playersTable = $schema->createTable('player');
-        $playersTable->addColumn('id', 'integer', ['unsigned' => true, 'autoincrement' => true]);
-        $playersTable->addColumn('pl_name', 'string', ['length' => 16]);
-        $playersTable->addUniqueIndex(['pl_name']);
-        $playersTable->setPrimaryKey(['id']);
-
-        $queries = $schema->toSql($this->db->getDatabasePlatform());
-        foreach ($queries as $query) {
-            $this->db->exec($query);
-        }
     }
 }

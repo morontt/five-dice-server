@@ -11,9 +11,16 @@ $console
     ->setDefinition([])
     ->setDescription('Create schema database')
     ->setCode(function (InputInterface $input, OutputInterface $output) use ($app) {
-        $x = $app['fd_database']->schemaCreate();
-        $output->writeln($x);
-        $output->writeln('<info>DB schema created</info>');
+        $queries = $app['fd_database.migrator']->migrate();
+        foreach ($queries as $query) {
+            $output->writeln($query);
+        }
+
+        if (count($queries)) {
+            $output->writeln('<info>DB schema updated</info>');
+        } else {
+            $output->writeln('<info>Nothing to update</info>');
+        }
     })
 ;
 
