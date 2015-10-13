@@ -66,14 +66,14 @@ class Repository
     }
 
     /**
-     * @param GameState $gameState
-     * @param Player $player
+     * @param int $gameStateId
+     * @param int $playerId
      */
-    public function createPlayerScore(GameState $gameState, Player $player)
+    public function createPlayerScore($gameStateId, $playerId)
     {
         $this->db->insert('player_score', [
-            'player_id' => $player->id,
-            'game_state_id' => $gameState->id,
+            'player_id' => $playerId,
+            'game_state_id' => $gameStateId,
         ]);
     }
 
@@ -84,6 +84,29 @@ class Repository
     public function getPendingGames()
     {
         $stmt = $this->db->prepare('SELECT hash FROM game_state WHERE game_status = :game_status');
+        $stmt->bindValue('game_status', GameState::STATUS_PENDING);
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
+
+    /**
+     * @param $hash
+     * @return array
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    public function getPendingGameStateWithPlayers($hash)
+    {
+        $sql = <<<SQL
+SELECT gs.id, ps.player_id FROM game_state AS gs
+INNER JOIN player_score AS ps
+  ON gs.id = ps.game_state_id
+WHERE gs.hash = :hash
+  AND gs.game_status = :game_status
+SQL;
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue('hash', $hash);
         $stmt->bindValue('game_status', GameState::STATUS_PENDING);
         $stmt->execute();
 

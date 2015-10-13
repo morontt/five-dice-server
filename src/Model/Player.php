@@ -20,7 +20,7 @@ class Player
      */
     function __construct(array $data)
     {
-        $this->id = $data['id'];
+        $this->id = (int)$data['id'];
         $this->name = $data['pl_name'];
     }
 }

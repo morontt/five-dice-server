@@ -11,3 +11,11 @@ Feature: api
     Then the response status code should be 200
     And json response should contain key "games"
     And json response should contain key "content_hash"
+
+    When player "bot-2" join last hash
+    Then json response should be:
+    """
+    {
+      "status": "ok"
+    }
+    """

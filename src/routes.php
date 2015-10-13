@@ -2,7 +2,8 @@
 
 use Symfony\Component\HttpFoundation\Response;
 
-$app->get('/', 'Controller\\WebController::index')->bind('homepage');
+$app->get('/', 'Controller\\WebController::index')
+    ->bind('homepage');
 
 $app->post('/create', 'Controller\\ApiController::createGame')
     ->before($app['fd_player.middleware'])
@@ -11,6 +12,11 @@ $app->post('/create', 'Controller\\ApiController::createGame')
 $app->get('/pending', 'Controller\\ApiController::pendingGames')
     ->before($app['fd_player.middleware'])
     ->bind('pending');
+
+$app->post('/join/{hash}', 'Controller\\ApiController::join')
+    ->assert('hash', '[a-z0-9]{8}')
+    ->before($app['fd_player.middleware'])
+    ->bind('join');
 
 $app->error(function (\Exception $e, $code) use ($app) {
     if ($app['debug']) {

@@ -17,7 +17,7 @@ class ApiController
         $gameState = new GameState();
 
         $app['fd_database']->createGame($gameState);
-        $app['fd_database']->createPlayerScore($gameState, $app['fd_player']);
+        $app['fd_database']->createPlayerScore($gameState->id, $app['fd_player']->id);
 
         return new JsonResponse(['status' => 'ok', 'hash' => $gameState->hash]);
     }
@@ -35,5 +35,35 @@ class ApiController
             'games' => $games,
             'content_hash' => hash('crc32b', serialize($games)),
         ]);
+    }
+
+    /**
+     * @param Application $app
+     * @param string $hash
+     * @return JsonResponse
+     */
+    public function join(Application $app, $hash)
+    {
+        $gameStates = $app['fd_database']->getPendingGameStateWithPlayers($hash);
+        $playerId = $app['fd_player']->id;
+
+        $result = ['status' => 'ok'];
+
+        if (count($gameStates)) {
+            foreach ($gameStates as $state) {
+                if ((int)$state['player_id'] === $playerId) {
+                    $result = ['status' => 'error', 'message' => 'duplicate user'];
+                    break;
+                }
+            }
+        } else {
+            $result = ['status' => 'error', 'message' => 'not found or not pending'];
+        }
+
+        if ($result['status'] != 'error') {
+            $app['fd_database']->createPlayerScore((int)$gameStates[0]['id'], $playerId);
+        }
+
+        return new JsonResponse($result);
     }
 }

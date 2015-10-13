@@ -68,6 +68,26 @@ class FeatureContext extends MinkContext implements Context, SnippetAcceptingCon
     }
 
     /**
+     * @param string $player
+     * @throws Exception
+     *
+     * @When player :player join last hash
+     */
+    public function playerJoinLastHash($player)
+    {
+        $clientResponse = $this->getClientJSON();
+
+        if (!isset($clientResponse['games']) || !count($clientResponse['games'])) {
+            throw new \Exception('hash not found');
+        }
+
+        $countGames = count($clientResponse['games']);
+
+        $hash = $clientResponse['games'][$countGames - 1]['hash'];
+        $this->callWithPlayer('POST', '/join/' . $hash, $player);
+    }
+
+    /**
      * @return array
      */
     protected function getClientJSON()
