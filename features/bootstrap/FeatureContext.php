@@ -64,7 +64,7 @@ class FeatureContext extends MinkContext implements Context, SnippetAcceptingCon
     {
         $clientResponse = $this->getClientJSON();
 
-        $this->assert(isset($clientResponse[$key]), 'wrong JSON response');
+        $this->assert(isset($clientResponse[$key]), sprintf('JSON response not contain key "%s"', $key));
     }
 
     /**
