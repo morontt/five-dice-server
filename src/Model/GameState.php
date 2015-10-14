@@ -37,4 +37,18 @@ class GameState
         $this->status = self::STATUS_PENDING;
         $this->createdAt = new Carbon('now');
     }
+
+    /**
+     * @param array $data
+     * @return $this
+     */
+    public function createFromArray(array $data)
+    {
+        $this->id = (int)$data['id'];
+        $this->hash = $data['hash'];
+        $this->status = (int)$data['game_status'];
+        $this->createdAt = Carbon::createFromFormat('Y-m-d H:i:s', $data['created_at']);
+
+        return $this;
+    }
 }

@@ -5,6 +5,7 @@ namespace Controller;
 use Model\GameState;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 class ApiController
 {
@@ -57,7 +58,7 @@ class ApiController
                 }
             }
         } else {
-            $result = ['status' => 'error', 'message' => 'not found or not pending'];
+            return $this->jsonNotFound();
         }
 
         if ($result['status'] != 'error') {
@@ -65,5 +66,45 @@ class ApiController
         }
 
         return new JsonResponse($result);
+    }
+
+    /**
+     * @param Application $app
+     * @param string $hash
+     * @return JsonResponse
+     */
+    public function getState(Application $app, $hash)
+    {
+        $gameState = $app['fd_database']->getStateObject($hash, $app['fd_player']);
+        if (!$gameState) {
+            return $this->jsonNotFound();
+        }
+
+        return new JsonResponse($gameState);
+    }
+
+    /**
+     * @param Request $request
+     * @param Application $app
+     * @param string $hash
+     * @return JsonResponse
+     */
+    public function postState(Request $request, Application $app, $hash)
+    {
+        return new JsonResponse(true);
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    protected function jsonNotFound()
+    {
+        return new JsonResponse(
+            [
+                'status' => 'error',
+                'message' => 'not found',
+            ],
+            404
+        );
     }
 }

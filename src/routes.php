@@ -2,6 +2,9 @@
 
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @var \Silex\Application $app
+ */
 $app->get('/', 'Controller\\WebController::index')
     ->bind('homepage');
 
@@ -18,9 +21,19 @@ $app->post('/join/{hash}', 'Controller\\ApiController::join')
     ->before($app['fd_player.middleware'])
     ->bind('join');
 
+$app->get('/state/{hash}', 'Controller\\ApiController::getState')
+    ->assert('hash', '[a-z0-9]{8}')
+    ->before($app['fd_player.middleware'])
+    ->bind('get_state');
+
+$app->post('/state/{hash}', 'Controller\\ApiController::postState')
+    ->assert('hash', '[a-z0-9]{8}')
+    ->before($app['fd_player.middleware'])
+    ->bind('post_state');
+
 $app->error(function (\Exception $e, $code) use ($app) {
     if ($app['debug']) {
-        return;
+        return null;
     }
 
     // 404.html, or 40x.html, or 4xx.html, or error.html

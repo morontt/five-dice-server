@@ -112,4 +112,27 @@ SQL;
 
         return $stmt->fetchAll();
     }
+
+    public function getStateObject($hash, Player $player)
+    {
+        $sql = <<<SQL
+SELECT * FROM game_state AS gs
+INNER JOIN player_score AS ps
+  ON gs.id = ps.game_state_id
+WHERE gs.hash = :hash
+  AND ps.player_id = :player_id
+SQL;
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue('hash', $hash);
+        $stmt->bindValue('player_id', $player->id);
+        $stmt->execute();
+
+        $dbResult = $stmt->fetch();
+        if ($dbResult === false) {
+            return null;
+        }
+
+        return (new GameState())->createFromArray($dbResult);
+    }
 }

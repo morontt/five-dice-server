@@ -6,6 +6,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 $console = new Application('Five-Dice Application', '0.1');
+/* @var \Silex\Application $app */
 $console->setDispatcher($app['dispatcher']);
 $console
     ->register('db:schema')
