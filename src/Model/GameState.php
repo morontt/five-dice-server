@@ -33,7 +33,7 @@ class GameState
 
     public function __construct()
     {
-        $this->hash = base_convert((int)(microtime(true) * 1000), 10, 36);
+        $this->hash = substr(base_convert(md5(microtime(true)), 16, 36), 0, 8);
         $this->status = self::STATUS_PENDING;
         $this->createdAt = new Carbon('now');
     }
