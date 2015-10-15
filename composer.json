@@ -14,7 +14,7 @@
         }
     ],
     "autoload": {
-        "psr-0": { "": "src/" }
+        "psr-4": { "FiveDice\\": "src/" }
     },
     "require": {
         "php": ">=5.4",
@@ -23,7 +23,8 @@
         "silex/web-profiler": "~1.0",
         "symfony/debug": "~2.3",
         "doctrine/dbal": "~2.2",
-        "nesbot/carbon": "~1.20"
+        "nesbot/carbon": "~1.20",
+        "yohang/finite": "~1.1"
     },
     "require-dev": {
         "behat/behat": "^3.0",

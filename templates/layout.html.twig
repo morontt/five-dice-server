@@ -12,6 +12,7 @@
             var routes = {
                 create: '{{ path('create') }}',
                 pending: '{{ path('pending') }}',
+                join: '{{ path('join', {hash: '12345678'}) }}',
                 state: '{{ path('get_state', {hash: '12345678'}) }}'
             }
         </script>

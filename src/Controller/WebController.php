@@ -1,6 +1,6 @@
 <?php
 
-namespace Controller;
+namespace FiveDice\Controller;
 
 use Silex\Application;
 

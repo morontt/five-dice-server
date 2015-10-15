@@ -1,6 +1,6 @@
 <?php
 
-namespace Database;
+namespace FiveDice\Database;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Schema\Schema;
@@ -59,6 +59,7 @@ class Migrator
         $gamesTable->addColumn('id', 'integer', ['autoincrement' => true,]);
         $gamesTable->addColumn('hash', 'string', ['length' => 8]);
         $gamesTable->addColumn('game_status', 'integer');
+        $gamesTable->addColumn('players', 'string', ['length' => 32]);
         $gamesTable->addColumn('step_player', 'integer', ['notnull' => false,]);
         $gamesTable->addColumn('count_rolling', 'integer', ['notnull' => false,]);
         $gamesTable->addColumn('dice_1', 'integer', ['notnull' => false,]);

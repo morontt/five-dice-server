@@ -1,6 +1,6 @@
 <?php
 
-namespace Model;
+namespace FiveDice\Model;
 
 class Player
 {

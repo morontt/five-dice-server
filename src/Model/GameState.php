@@ -1,10 +1,11 @@
 <?php
 
-namespace Model;
+namespace FiveDice\Model;
 
 use Carbon\Carbon;
+use Finite\StatefulInterface;
 
-class GameState
+class GameState implements StatefulInterface
 {
     const STATUS_PENDING = 1;
     const STATUS_ACTIVE = 2;
@@ -40,7 +41,7 @@ class GameState
 
     /**
      * @param array $data
-     * @return $this
+     * @return GameState
      */
     public function createFromArray(array $data)
     {
@@ -50,5 +51,19 @@ class GameState
         $this->createdAt = Carbon::createFromFormat('Y-m-d H:i:s', $data['created_at']);
 
         return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getFiniteState()
+    {
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setFiniteState($state)
+    {
     }
 }

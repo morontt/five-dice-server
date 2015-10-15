@@ -5,28 +5,28 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @var \Silex\Application $app
  */
-$app->get('/', 'Controller\\WebController::index')
+$app->get('/', 'FiveDice\\Controller\\WebController::index')
     ->bind('homepage');
 
-$app->post('/create', 'Controller\\ApiController::createGame')
+$app->post('/create', 'FiveDice\\Controller\\ApiController::createGame')
     ->before($app['fd_player.middleware'])
     ->bind('create');
 
-$app->get('/pending', 'Controller\\ApiController::pendingGames')
+$app->get('/pending', 'FiveDice\\Controller\\ApiController::pendingGames')
     ->before($app['fd_player.middleware'])
     ->bind('pending');
 
-$app->post('/join/{hash}', 'Controller\\ApiController::join')
+$app->post('/join/{hash}', 'FiveDice\\Controller\\ApiController::join')
     ->assert('hash', '[a-z0-9]{8}')
     ->before($app['fd_player.middleware'])
     ->bind('join');
 
-$app->get('/state/{hash}', 'Controller\\ApiController::getState')
+$app->get('/state/{hash}', 'FiveDice\\Controller\\ApiController::getState')
     ->assert('hash', '[a-z0-9]{8}')
     ->before($app['fd_player.middleware'])
     ->bind('get_state');
 
-$app->post('/state/{hash}', 'Controller\\ApiController::postState')
+$app->post('/state/{hash}', 'FiveDice\\Controller\\ApiController::postState')
     ->assert('hash', '[a-z0-9]{8}')
     ->before($app['fd_player.middleware'])
     ->bind('post_state');

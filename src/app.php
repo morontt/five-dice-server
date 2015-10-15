@@ -1,7 +1,7 @@
 <?php
 
-use Database\Migrator;
-use Database\Repository;
+use FiveDice\Database\Migrator;
+use FiveDice\Database\Repository;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\TwigServiceProvider;

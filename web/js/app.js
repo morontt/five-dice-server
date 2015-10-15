@@ -33,11 +33,12 @@ $(function () {
                     success: function (data) {
                         var html;
                         console.log(data);
+                        clearInterval(poll_id);
 
                         if (data.content_hash !== last_content_hash) {
                             html = '<ul>';
                             data.games.forEach(function (el) {
-                                html += '<li>' + el.hash + '</li>'
+                                html += '<li class="join">' + el.hash + '</li>'
                             });
                             html += '</ul>';
 
@@ -51,5 +52,13 @@ $(function () {
                 });
             }, 2000);
         }
+    });
+
+    $('.pending-games').on('click', '.join', function () {
+        var hash = $(this).html();
+        $.ajax({
+            url: routes.join.replace('12345678', hash),
+            method: 'POST'
+        });
     });
 });

@@ -1,10 +1,10 @@
 <?php
 
-namespace Database;
+namespace FiveDice\Database;
 
 use Doctrine\DBAL\Connection;
-use Model\GameState;
-use Model\Player;
+use FiveDice\Model\GameState;
+use FiveDice\Model\Player;
 
 class Repository
 {
@@ -53,12 +53,14 @@ class Repository
 
     /**
      * @param GameState $gameState
+     * @param int $playerId
      */
-    public function createGame(GameState $gameState)
+    public function createGame(GameState $gameState, $playerId)
     {
         $this->db->insert('game_state', [
             'hash' => $gameState->hash,
             'game_status' => $gameState->status,
+            'players' => $playerId,
             'created_at' => $gameState->createdAt->toDateTimeString(),
         ]);
 
@@ -98,7 +100,7 @@ class Repository
     public function getPendingGameStateWithPlayers($hash)
     {
         $sql = <<<SQL
-SELECT gs.id, ps.player_id FROM game_state AS gs
+SELECT gs.id, gs.players, ps.player_id FROM game_state AS gs
 INNER JOIN player_score AS ps
   ON gs.id = ps.game_state_id
 WHERE gs.hash = :hash
@@ -113,6 +115,26 @@ SQL;
         return $stmt->fetchAll();
     }
 
+    /**
+     * @param string $hash
+     * @param string $players
+     * @return int
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    public function joinToGame($hash, $players)
+    {
+        return $this->db->executeUpdate(
+            'UPDATE game_state SET players = ? WHERE hash = ?',
+            [$players, $hash]
+        );
+    }
+
+    /**
+     * @param $hash
+     * @param Player $player
+     * @return GameState|null
+     * @throws \Doctrine\DBAL\DBALException
+     */
     public function getStateObject($hash, Player $player)
     {
         $sql = <<<SQL

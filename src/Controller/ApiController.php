@@ -1,8 +1,8 @@
 <?php
 
-namespace Controller;
+namespace FiveDice\Controller;
 
-use Model\GameState;
+use FiveDice\Model\GameState;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +17,7 @@ class ApiController
     {
         $gameState = new GameState();
 
-        $app['fd_database']->createGame($gameState);
+        $app['fd_database']->createGame($gameState, $app['fd_player']->id);
         $app['fd_database']->createPlayerScore($gameState->id, $app['fd_player']->id);
 
         return new JsonResponse(['status' => 'ok', 'hash' => $gameState->hash]);
@@ -51,6 +51,7 @@ class ApiController
         $result = ['status' => 'ok'];
 
         if (count($gameStates)) {
+            $players = $gameStates[0]['players'];
             foreach ($gameStates as $state) {
                 if ((int)$state['player_id'] === $playerId) {
                     $result = ['status' => 'error', 'message' => 'duplicate user'];
@@ -62,6 +63,7 @@ class ApiController
         }
 
         if ($result['status'] != 'error') {
+            $app['fd_database']->joinToGame($hash, sprintf('%s:%s', $players, $app['fd_player']->id));
             $app['fd_database']->createPlayerScore((int)$gameStates[0]['id'], $playerId);
         }
 
