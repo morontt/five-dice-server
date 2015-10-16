@@ -75,8 +75,8 @@ class Migrator
         $playerScoreTable->addColumn('player_id', 'integer');
         $playerScoreTable->addColumn('game_state_id', 'integer');
         $playerScoreTable->setPrimaryKey(['player_id', 'game_state_id']);
-        $playerScoreTable->addForeignKeyConstraint($playersTable, ['player_id'], ['id'], ['onDelete' => 'CASCADE']);
-        $playerScoreTable->addForeignKeyConstraint($gamesTable, ['game_state_id'], ['id'], ['onDelete' => 'CASCADE']);
+        $playerScoreTable->addIndex(['player_id']);
+        $playerScoreTable->addIndex(['game_state_id']);
 
         return $schema;
     }
