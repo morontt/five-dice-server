@@ -82,7 +82,16 @@ class ApiController
             return $this->jsonNotFound();
         }
 
-        return new JsonResponse($gameState);
+        $app['fd_state_machine']->init($gameState);
+        /* @var \Finite\State\State $state */
+        $state = $app['fd_state_machine']->getCurrentState();
+
+        $result = [
+            'status' => 'ok',
+            'state' => $state->getName(),
+        ];
+
+        return new JsonResponse($result);
     }
 
     /**

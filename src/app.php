@@ -2,6 +2,7 @@
 
 use FiveDice\Database\Migrator;
 use FiveDice\Database\Repository;
+use FiveDice\Finite\StateMachine;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\TwigServiceProvider;
@@ -21,9 +22,14 @@ $app->register(new DoctrineServiceProvider(), [
 $app['fd_database'] = $app->share(function ($app) {
     return new Repository($app['db']);
 });
+
 $app['fd_database.migrator'] = function ($app) {
     return new Migrator($app['db']);
 };
+
+$app['fd_state_machine'] = $app->share(function () {
+    return new StateMachine();
+});
 
 $app['fd_player'] = null;
 $app['fd_player.middleware'] = $app->protect(function (Request $request, Application $app) {

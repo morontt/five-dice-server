@@ -4,6 +4,7 @@ namespace FiveDice\Model;
 
 use Carbon\Carbon;
 use Finite\StatefulInterface;
+use FiveDice\Finite\StateMachine;
 
 class GameState implements StatefulInterface
 {
@@ -31,6 +32,46 @@ class GameState implements StatefulInterface
      */
     public $createdAt;
 
+    /**
+     * @var array
+     */
+    public $players;
+
+    /**
+     * @var int
+     */
+    public $stepPlayer;
+
+    /**
+     * @var int
+     */
+    public $countRolling;
+
+    /**
+     * @var int
+     */
+    public $dice1;
+
+    /**
+     * @var int
+     */
+    public $dice2;
+
+    /**
+     * @var int
+     */
+    public $dice3;
+
+    /**
+     * @var int
+     */
+    public $dice4;
+
+    /**
+     * @var int
+     */
+    public $dice5;
+
 
     public function __construct()
     {
@@ -48,6 +89,30 @@ class GameState implements StatefulInterface
         $this->id = (int)$data['id'];
         $this->hash = $data['hash'];
         $this->status = (int)$data['game_status'];
+
+        $this->players = array_map(
+            function ($e) {
+                return (int)$e;
+            },
+            explode(':', $data['players'])
+        );
+
+        $i = function ($x) {
+            if ($x !== null) {
+                $x = (int)$x;
+            }
+
+            return $x;
+        };
+
+        $this->stepPlayer = $i($data['step_player']);
+        $this->countRolling = $i($data['count_rolling']);
+        $this->dice1 = $i($data['dice_1']);
+        $this->dice2 = $i($data['dice_2']);
+        $this->dice3 = $i($data['dice_3']);
+        $this->dice4 = $i($data['dice_4']);
+        $this->dice5 = $i($data['dice_5']);
+
         $this->createdAt = Carbon::createFromFormat('Y-m-d H:i:s', $data['created_at']);
 
         return $this;
@@ -58,6 +123,7 @@ class GameState implements StatefulInterface
      */
     public function getFiniteState()
     {
+        return StateMachine::STATE_PENDING;
     }
 
     /**

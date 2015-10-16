@@ -5,6 +5,7 @@ namespace FiveDice\Finite;
 use Finite\StateMachine\StateMachine as Machine;
 use Finite\State\State;
 use Finite\State\StateInterface;
+use FiveDice\Model\GameState;
 
 class StateMachine
 {
@@ -15,7 +16,11 @@ class StateMachine
     const STATE_ROLLING_3 = 'rolling_3';
     const STATE_CLOSED = 'closed';
 
+    /**
+     * @var Machine
+     */
     protected $sm;
+
 
     function __construct()
     {
@@ -29,4 +34,21 @@ class StateMachine
         $this->sm->addState(new State(self::STATE_CLOSED, StateInterface::TYPE_FINAL));
     }
 
+    /**
+     * @param GameState $obj
+     * @throws \Finite\Exception\ObjectException
+     */
+    public function init(GameState $obj)
+    {
+        $this->sm->setObject($obj);
+        $this->sm->initialize();
+    }
+
+    /**
+     * @return StateInterface
+     */
+    public function getCurrentState()
+    {
+        return $this->sm->getCurrentState();
+    }
 }
