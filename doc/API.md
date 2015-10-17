@@ -78,13 +78,7 @@ GET */state/{hash}*
   "state": "active",
   "step_player": 23,
   "count_rolling": 1,
-  "dices": [
-    2,
-    1,
-    1,
-    6,
-    4
-  ],
+  "dices": [2, 1, 1, 6, 4],
   "table": {
     "pair": 27,
     "two_pairs": null,
