@@ -69,6 +69,38 @@ POST */join/{hash}*
 
 GET */state/{hash}*
 
+Возвращается JSON с текущим состоянием игры. Указан игрок, совершающий ход, число сделанных бросков кубиков, комбинация,
+выпавшая на кубиках, таблица с результатами предыдущих бросков.
+
+```json
+{
+  "status": "ok",
+  "state": "active",
+  "step_player": 23,
+  "count_rolling": 1,
+  "dices": [
+    2,
+    1,
+    1,
+    6,
+    4
+  ],
+  "table": {
+    "pair": 27,
+    "two_pairs": null,
+    "triplet": 12,
+    "full_house": null,
+    "straight": 20,
+    "big_straight": null,
+    "odd": null,
+    "even": null,
+    "quads": 21,
+    "poker": null,
+    "sum": null
+  }
+}
+```
+
 ## Запрос с ходом
 
 POST */state/{hash}*

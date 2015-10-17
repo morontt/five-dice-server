@@ -74,6 +74,17 @@ class Migrator
         $playerScoreTable = $schema->createTable('player_score');
         $playerScoreTable->addColumn('player_id', 'integer');
         $playerScoreTable->addColumn('game_state_id', 'integer');
+        $playerScoreTable->addColumn('pair', 'integer', ['notnull' => false,]);
+        $playerScoreTable->addColumn('two_pairs', 'integer', ['notnull' => false,]);
+        $playerScoreTable->addColumn('triplet', 'integer', ['notnull' => false,]);
+        $playerScoreTable->addColumn('full_house', 'integer', ['notnull' => false,]);
+        $playerScoreTable->addColumn('straight', 'integer', ['notnull' => false,]);
+        $playerScoreTable->addColumn('big_straight', 'integer', ['notnull' => false,]);
+        $playerScoreTable->addColumn('odd', 'integer', ['notnull' => false,]);
+        $playerScoreTable->addColumn('even', 'integer', ['notnull' => false,]);
+        $playerScoreTable->addColumn('quads', 'integer', ['notnull' => false,]);
+        $playerScoreTable->addColumn('poker', 'integer', ['notnull' => false,]);
+        $playerScoreTable->addColumn('sum', 'integer', ['notnull' => false,]);
         $playerScoreTable->setPrimaryKey(['player_id', 'game_state_id']);
         $playerScoreTable->addIndex(['player_id']);
         $playerScoreTable->addIndex(['game_state_id']);

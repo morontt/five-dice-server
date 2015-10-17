@@ -77,6 +77,7 @@ class ApiController
      */
     public function getState(Application $app, $hash)
     {
+        /* @var GameState $gameState */
         $gameState = $app['fd_database']->getStateObject($hash, $app['fd_player']);
         if (!$gameState) {
             return $this->jsonNotFound();
@@ -89,6 +90,10 @@ class ApiController
         $result = [
             'status' => 'ok',
             'state' => $state->getName(),
+            'step_player' => $gameState->stepPlayer,
+            'count_rolling' => $gameState->countRolling,
+            'dices' => $gameState->getDicesArray(),
+            'table' => $gameState->getScoreArray(),
         ];
 
         return new JsonResponse($result);

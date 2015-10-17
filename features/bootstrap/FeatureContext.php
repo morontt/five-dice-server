@@ -2,6 +2,7 @@
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
+use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Behat\MinkExtension\Context\MinkContext;
@@ -93,6 +94,25 @@ class FeatureContext extends MinkContext implements Context, SnippetAcceptingCon
     protected function getClientJSON()
     {
         return json_decode($this->getSession()->getPage()->getContent(), true);
+    }
+
+    /**
+     * @Given player :player request state last hash
+     */
+    public function playerRequestStateLastHash($player)
+    {
+        $this->callWithPlayer('GET', '/pending', $player);
+
+        $clientResponse = $this->getClientJSON();
+
+        if (!isset($clientResponse['games']) || !count($clientResponse['games'])) {
+            throw new \Exception('hash not found');
+        }
+
+        $countGames = count($clientResponse['games']);
+
+        $hash = $clientResponse['games'][$countGames - 1]['hash'];
+        $this->callWithPlayer('GET', '/state/' . $hash, $player);
     }
 
     /**

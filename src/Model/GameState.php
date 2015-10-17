@@ -72,6 +72,61 @@ class GameState implements StatefulInterface
      */
     public $dice5;
 
+    /**
+     * @var int
+     */
+    public $pair;
+
+    /**
+     * @var int
+     */
+    public $twoPairs;
+
+    /**
+     * @var int
+     */
+    public $triplet;
+
+    /**
+     * @var int
+     */
+    public $fullHouse;
+
+    /**
+     * @var int
+     */
+    public $straight;
+
+    /**
+     * @var int
+     */
+    public $bigStraight;
+
+    /**
+     * @var int
+     */
+    public $odd;
+
+    /**
+     * @var int
+     */
+    public $even;
+
+    /**
+     * @var int
+     */
+    public $quads;
+
+    /**
+     * @var int
+     */
+    public $poker;
+
+    /**
+     * @var int
+     */
+    public $sum;
+
 
     public function __construct()
     {
@@ -113,9 +168,55 @@ class GameState implements StatefulInterface
         $this->dice4 = $i($data['dice_4']);
         $this->dice5 = $i($data['dice_5']);
 
+        $this->pair = $i($data['pair']);
+        $this->twoPairs = $i($data['two_pairs']);
+        $this->triplet = $i($data['triplet']);
+        $this->fullHouse = $i($data['full_house']);
+        $this->straight = $i($data['straight']);
+        $this->bigStraight = $i($data['big_straight']);
+        $this->odd = $i($data['odd']);
+        $this->even = $i($data['even']);
+        $this->quads = $i($data['quads']);
+        $this->poker = $i($data['poker']);
+        $this->sum = $i($data['sum']);
+
         $this->createdAt = Carbon::createFromFormat('Y-m-d H:i:s', $data['created_at']);
 
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getDicesArray()
+    {
+        return [
+            $this->dice1,
+            $this->dice2,
+            $this->dice3,
+            $this->dice4,
+            $this->dice5,
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function getScoreArray()
+    {
+        return [
+            'pair' => $this->pair,
+            'two_pairs' => $this->twoPairs,
+            'triplet' => $this->triplet,
+            'full_house' => $this->fullHouse,
+            'straight' => $this->straight,
+            'big_straight' => $this->bigStraight,
+            'odd' => $this->odd,
+            'even' => $this->even,
+            'quads' => $this->quads,
+            'poker' => $this->poker,
+            'sum' => $this->sum,
+        ];
     }
 
     /**
