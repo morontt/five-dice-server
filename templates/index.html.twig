@@ -1,5 +1,11 @@
 {% extends "layout.html.twig" %}
 
 {% block content %}
-    Welcome to Five-Dice!
+    <p>Welcome to Five-Dice!</p>
+    <div class="create-block">
+        <input type="text" id="fd-player"/>
+        <button id="btn-create">Create game</button>
+        <button id="btn-pending">Pending games</button>
+    </div>
+    <div class="pending-games"></div>
 {% endblock %}

@@ -5,6 +5,18 @@
         <link href="{{ app.request.basepath }}/css/main.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
-        {% block content %}{% endblock %}
+        <div class="content">
+            {% block content %}{% endblock %}
+        </div>
+        <script>
+            var routes = {
+                create: '{{ path('create') }}',
+                pending: '{{ path('pending') }}',
+                join: '{{ path('join', {hash: '12345678'}) }}',
+                state: '{{ path('get_state', {hash: '12345678'}) }}'
+            }
+        </script>
+        <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script src="/js/app.js"></script>
     </body>
 </html>

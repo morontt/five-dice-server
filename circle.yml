@@ -22,8 +22,13 @@ dependencies:
     - sudo a2enmod rewrite
     - sudo service apache2 restart
 
+database:
+  override:
+    - ./console db:schema
+
 test:
   pre:
     - chmod -R 777 var/cache
+    - chmod -R 777 database
   override:
     - bin/behat
