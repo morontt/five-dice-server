@@ -2,3 +2,4 @@
 /bin/
 behat.yml
 /database/game.db3
+/composer.phar
