@@ -9,3 +9,32 @@
 
 - [Правила](./doc/RULES.md)
 - [API для роботов](./doc/API.md)
+
+## Установка проекта
+
+Запустить установочный скрипт:
+
+```bash
+  ./install.sh
+```
+
+Если используется веб-сервер Apache, то создать виртуальный хост наподобие следующего:
+
+```apacheconf
+<VirtualHost *:80>
+    ServerName five-dice.loc
+    DocumentRoot "path/to/five-dice-server/web"
+
+    <Directory "path/to/five-dice-server/web">
+        DirectoryIndex index.php index.html
+        AllowOverride All
+        Allow from all
+
+        # Apache 2.2
+        # Order deny,allow
+
+        # Apache 2.4
+        Require all granted
+    </Directory>
+</VirtualHost>
+```
