@@ -2,6 +2,7 @@
 
 namespace FiveDice\Controller;
 
+use FiveDice\Finite\StateMachine;
 use FiveDice\Model\GameState;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -63,7 +64,8 @@ class ApiController
         }
 
         if ($result['status'] != 'error') {
-            $app['fd_database']->joinToGame($hash, sprintf('%s:%s', $players, $app['fd_player']->id));
+            $complete = (count(explode(':', $players)) + 1 == (int)$gameStates[0]['need_players']);
+            $app['fd_database']->joinToGame($hash, sprintf('%s:%s', $players, $app['fd_player']->id), $complete);
             $app['fd_database']->createPlayerScore((int)$gameStates[0]['id'], $playerId);
         }
 
@@ -86,6 +88,12 @@ class ApiController
         $app['fd_state_machine']->init($gameState);
         /* @var \Finite\State\State $state */
         $state = $app['fd_state_machine']->getCurrentState();
+
+        if ($state->getName() === StateMachine::STATE_PENDING
+            && $gameState->status === GameState::STATUS_COMPLETE_JOIN
+        ) {
+            $app['fd_state_machine']->apply('start');
+        }
 
         $result = [
             'status' => 'ok',

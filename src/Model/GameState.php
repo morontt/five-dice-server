@@ -11,6 +11,7 @@ class GameState implements StatefulInterface
     const STATUS_PENDING = 1;
     const STATUS_ACTIVE = 2;
     const STATUS_CLOSED = 3;
+    const STATUS_COMPLETE_JOIN = 4;
 
     /**
      * @var int
@@ -127,6 +128,11 @@ class GameState implements StatefulInterface
      */
     public $sum;
 
+    /**
+     * @var int
+     */
+    public $needPlayers;
+
 
     public function __construct()
     {
@@ -162,6 +168,7 @@ class GameState implements StatefulInterface
 
         $this->stepPlayer = $i($data['step_player']);
         $this->countRolling = $i($data['count_rolling']);
+        $this->needPlayers = $i($data['need_players']);
         $this->dice1 = $i($data['dice_1']);
         $this->dice2 = $i($data['dice_2']);
         $this->dice3 = $i($data['dice_3']);

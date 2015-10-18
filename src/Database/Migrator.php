@@ -67,6 +67,7 @@ class Migrator
         $gamesTable->addColumn('dice_3', 'integer', ['notnull' => false,]);
         $gamesTable->addColumn('dice_4', 'integer', ['notnull' => false,]);
         $gamesTable->addColumn('dice_5', 'integer', ['notnull' => false,]);
+        $gamesTable->addColumn('need_players', 'integer', ['default' => 2,]);
         $gamesTable->addColumn('created_at', 'datetime');
         $gamesTable->addUniqueIndex(['hash']);
         $gamesTable->setPrimaryKey(['id']);

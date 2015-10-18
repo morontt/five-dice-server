@@ -56,9 +56,15 @@ $(function () {
 
     $('.pending-games').on('click', '.join', function () {
         var hash = $(this).html();
-        $.ajax({
-            url: routes.join.replace('12345678', hash),
-            method: 'POST'
-        });
+        var player = $('#fd-player').val().trim();
+        if (player.length) {
+            $.ajax({
+                url: routes.join.replace('12345678', hash),
+                method: 'POST',
+                headers: {
+                    'FD-PLAYER-ID': player
+                }
+            });
+        }
     });
 });

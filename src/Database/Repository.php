@@ -100,7 +100,12 @@ class Repository
     public function getPendingGameStateWithPlayers($hash)
     {
         $sql = <<<SQL
-SELECT gs.id, gs.players, ps.player_id FROM game_state AS gs
+SELECT
+  gs.id,
+  gs.players,
+  gs.need_players,
+  ps.player_id
+FROM game_state AS gs
 INNER JOIN player_score AS ps
   ON gs.id = ps.game_state_id
 WHERE gs.hash = :hash
@@ -118,15 +123,23 @@ SQL;
     /**
      * @param string $hash
      * @param string $players
+     * @param bool $complete
      * @return int
      * @throws \Doctrine\DBAL\DBALException
      */
-    public function joinToGame($hash, $players)
+    public function joinToGame($hash, $players, $complete)
     {
-        return $this->db->executeUpdate(
-            'UPDATE game_state SET players = ? WHERE hash = ?',
-            [$players, $hash]
-        );
+        if ($complete) {
+            return $this->db->executeUpdate(
+                'UPDATE game_state SET players = ?, game_status = ? WHERE hash = ?',
+                [$players, GameState::STATUS_COMPLETE_JOIN, $hash]
+            );
+        } else {
+            return $this->db->executeUpdate(
+                'UPDATE game_state SET players = ? WHERE hash = ?',
+                [$players, $hash]
+            );
+        }
     }
 
     /**
