@@ -2,3 +2,46 @@ body {
     font-family: "Consolas", "Lucida Console", monospace;
     font-size: 12pt;
 }
+
+.player-box {
+    min-height: 200px;
+}
+
+.tiles {
+    min-height: 200px;
+}
+
+.dot {
+    display: inline-block;
+    margin-right: 20px;
+    width: 128px;
+    height: 128px;
+}
+
+.dot-0 {
+    background-image: url("../image/dot_0.png");
+}
+
+.dot-1 {
+    background-image: url("../image/dot_1.png");
+}
+
+.dot-2 {
+    background-image: url("../image/dot_2.png");
+}
+
+.dot-3 {
+    background-image: url("../image/dot_3.png");
+}
+
+.dot-4 {
+    background-image: url("../image/dot_4.png");
+}
+
+.dot-5 {
+    background-image: url("../image/dot_5.png");
+}
+
+.dot-6 {
+    background-image: url("../image/dot_6.png");
+}

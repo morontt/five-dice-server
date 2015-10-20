@@ -8,6 +8,9 @@ use Symfony\Component\HttpFoundation\Response;
 $app->get('/', 'FiveDice\\Controller\\WebController::index')
     ->bind('homepage');
 
+$app->get('/prototype', 'FiveDice\\Controller\\WebController::prototype')
+    ->bind('prototype');
+
 $app->post('/create', 'FiveDice\\Controller\\ApiController::createGame')
     ->before($app['fd_player.middleware'])
     ->bind('create');

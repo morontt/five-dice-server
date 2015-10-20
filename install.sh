@@ -18,3 +18,6 @@ if [ ! -f ./database/game.db3 ]; then
 
     ./console db:schema
 fi
+
+bower install
+babel react_src --out-dir web/react

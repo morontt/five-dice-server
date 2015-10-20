@@ -14,4 +14,14 @@ class WebController
     {
         return $app['twig']->render('index.html.twig', []);
     }
+
+    /**
+     * @param Application $app
+     * @return string
+     */
+    public function prototype(Application $app)
+    {
+        return $app['twig']->render('prototype.html.twig', []);
+    }
+
 }
