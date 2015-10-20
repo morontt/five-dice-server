@@ -21,10 +21,13 @@ Feature: api
     """
 
   Scenario: check get state
-    Given player "bot-1" request state last hash
+    # TODO :)
+    # Given player "bot-1" request state last hash
+    # Then the response status code should be 200
+    # And json response should contain key "dices"
+    # And json response should contain key "table"
+    Given call "POST" "/create" with player "bot-3"
     Then the response status code should be 200
-    And json response should contain key "dices"
-    And json response should contain key "table"
 
-    Given player "bot-74" request state last hash
+    When player "bot-74" request state last hash
     Then the response status code should be 404
