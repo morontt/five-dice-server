@@ -16,3 +16,4 @@ $app->register(
         'profiler.cache_dir' => __DIR__ . '/../var/cache/profiler',
     ]
 );
+$app->register(new Sorien\Provider\PimpleDumpProvider());
