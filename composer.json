@@ -29,7 +29,8 @@
     "require-dev": {
         "behat/behat": "^3.0",
         "behat/mink-extension": "^2.0",
-        "behat/mink-goutte-driver": "~1.0"
+        "behat/mink-goutte-driver": "~1.0",
+        "sorien/silex-pimple-dumper": "~1.0"
     },
     "config": {
         "bin-dir": "bin"
