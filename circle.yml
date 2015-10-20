@@ -15,7 +15,11 @@ dependencies:
     - vendor
     - bin
   override:
+    - npm install -g bower
+    - npm install -g babel
     - composer install --no-interaction
+    - bower install
+    - babel react_src --out-dir web/react
   post:
     - cp ./var/ci/five-dice.loc.conf /etc/apache2/sites-available
     - sudo a2ensite five-dice.loc.conf
