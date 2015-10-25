@@ -133,12 +133,19 @@ class GameState implements StatefulInterface
      */
     public $needPlayers;
 
+    /**
+     * @var string
+     */
+    protected $finiteState;
+
 
     public function __construct()
     {
         $this->hash = substr(base_convert(md5(str_shuffle(microtime(true))), 16, 36), 6, 8);
         $this->status = self::STATUS_PENDING;
         $this->createdAt = new Carbon('now');
+
+        $this->finiteState = StateMachine::STATE_PENDING;
     }
 
     /**
@@ -231,7 +238,7 @@ class GameState implements StatefulInterface
      */
     public function getFiniteState()
     {
-        return StateMachine::STATE_PENDING;
+        return $this->finiteState;
     }
 
     /**
@@ -239,5 +246,6 @@ class GameState implements StatefulInterface
      */
     public function setFiniteState($state)
     {
+        $this->finiteState = $state;
     }
 }
