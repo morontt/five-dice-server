@@ -3,7 +3,6 @@
 namespace FiveDice\Finite;
 
 use Finite\Event\FiniteEvents;
-use Finite\Event\TransitionEvent;
 use Finite\StateMachine\StateMachine as Machine;
 use Finite\State\State;
 use Finite\State\StateInterface;
@@ -47,9 +46,8 @@ class StateMachine
         $this->sm->addTransition('score_3', self::STATE_ROLLING_3, self::STATE_SCORE);
 
         $d = $this->sm->getDispatcher();
-        $d->addListener(FiniteEvents::POST_TRANSITION . '.start', function (TransitionEvent $e) {
-            $sm = $e->getStateMachine();
-        });
+        $d->addListener(FiniteEvents::POST_TRANSITION . '.start', 'FiveDice\Listener\TransitionListener::replacePlayer');
+        $d->addListener(FiniteEvents::POST_TRANSITION . '.next', 'FiveDice\Listener\TransitionListener::replacePlayer');
     }
 
     /**

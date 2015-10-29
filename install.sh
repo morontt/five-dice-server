@@ -15,6 +15,6 @@ if [ ! -f ./database/game.db3 ]; then
     chmod a+w database
     touch database/game.db3
     chmod a+w database/game.db3
-
-    ./console db:schema
 fi
+
+./console db:schema
