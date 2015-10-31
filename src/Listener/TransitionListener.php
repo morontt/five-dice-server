@@ -3,9 +3,19 @@
 namespace FiveDice\Listener;
 
 use Finite\Event\TransitionEvent;
+use FiveDice\Model\GameState;
 
 class TransitionListener
 {
+    /**
+     * @param TransitionEvent $e
+     */
+    public static function activate(TransitionEvent $e)
+    {
+        $gameState = $e->getStateMachine()->getObject();
+        $gameState->status = GameState::STATUS_ACTIVE;
+    }
+
     /**
      * @param TransitionEvent $e
      */
@@ -23,5 +33,20 @@ class TransitionListener
         }
 
         $gameState->stepPlayer = $gameState->players[$idx];
+        $e->getStateMachine()->apply('roll_1');
+    }
+
+    /**
+     * @param TransitionEvent $e
+     */
+    public static function checkState(TransitionEvent $e)
+    {
+        $sm = $e->getStateMachine();
+        $currentState = $sm->getCurrentState()->getName();
+
+        if (strpos($currentState, 'rolling_') === 0) {
+            $gameState = $sm->getObject();
+            $gameState->countRolling = (int)str_replace('rolling_', '', $currentState);
+        }
     }
 }

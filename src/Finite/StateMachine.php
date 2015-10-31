@@ -6,6 +6,7 @@ use Finite\Event\FiniteEvents;
 use Finite\StateMachine\StateMachine as Machine;
 use Finite\State\State;
 use Finite\State\StateInterface;
+use FiveDice\Listener\RollSubscriber;
 use FiveDice\Model\GameState;
 
 class StateMachine
@@ -33,6 +34,7 @@ class StateMachine
         $this->sm->addState(self::STATE_ROLLING_1);
         $this->sm->addState(self::STATE_ROLLING_2);
         $this->sm->addState(self::STATE_ROLLING_3);
+        $this->sm->addState(self::STATE_SCORE);
         $this->sm->addState(new State(self::STATE_CLOSED, StateInterface::TYPE_FINAL));
 
         $this->sm->addTransition('start', self::STATE_PENDING, self::STATE_REPLACEMENT_PLAYER);
@@ -46,8 +48,11 @@ class StateMachine
         $this->sm->addTransition('score_3', self::STATE_ROLLING_3, self::STATE_SCORE);
 
         $d = $this->sm->getDispatcher();
+        $d->addListener(FiniteEvents::POST_TRANSITION . '.start', 'FiveDice\Listener\TransitionListener::activate');
         $d->addListener(FiniteEvents::POST_TRANSITION . '.start', 'FiveDice\Listener\TransitionListener::replacePlayer');
         $d->addListener(FiniteEvents::POST_TRANSITION . '.next', 'FiveDice\Listener\TransitionListener::replacePlayer');
+        $d->addListener(FiniteEvents::POST_TRANSITION, 'FiveDice\Listener\TransitionListener::checkState');
+        $d->addSubscriber(new RollSubscriber());
     }
 
     /**
@@ -69,7 +74,9 @@ class StateMachine
     }
 
     /**
-     * @{inheritDoc}
+     * @param $transitionName
+     * @return mixed
+     * @throws \Finite\Exception\StateException
      */
     public function apply($transitionName)
     {

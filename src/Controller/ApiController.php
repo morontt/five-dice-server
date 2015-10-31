@@ -93,6 +93,7 @@ class ApiController
             && $gameState->status === GameState::STATUS_COMPLETE_JOIN
         ) {
             $app['fd_state_machine']->apply('start');
+            $state = $app['fd_state_machine']->getCurrentState();
         }
 
         $result = [
